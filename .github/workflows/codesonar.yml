@@ -54,7 +54,7 @@ jobs:
 
       # Build the release build
       - name: Build the solution
-        run: dotnet build -c Release src/UglyToad.PdfPig.sln
+        run: dotnet build -c Release src/UglyToad.PdfPig.sln -warnaslevel:0
       - name: Build and Analyze
         run: |
          
