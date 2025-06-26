@@ -29,8 +29,7 @@ jobs:
       TARGET: ${{ github.base_ref }}
       IS_PR: ${{ github.event_name }}
     steps:
-      - name: Set parallelism
-        run:  echo "PARALLEL=`nproc`" >> $GITHUB_ENV
+
       - name: Checkout 
         uses: actions/checkout@v4
       - name: Safe directory
@@ -59,7 +58,7 @@ jobs:
       - name: Build and Analyze
         run: |
          
-         python3 cso-scripts/build_and_analyze.py  codesonar.conf cs-dotnet-scan -msbuild-solution src/UglyToad.PdfPig.sln \
+         python cso-scripts/build_and_analyze.py  codesonar.conf cs-dotnet-scan -msbuild-solution src/UglyToad.PdfPig.sln \
  #      - name: Upload SARIF to GitHub #Use this if you do not have GitHub Enterprise
  #       if: ${{ github.event.pull_request }}
  #       uses: actions/upload-artifact@v4
