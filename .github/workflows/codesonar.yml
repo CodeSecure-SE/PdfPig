@@ -54,6 +54,10 @@ jobs:
       # Build the release build
       - name: Build the solution
         run: dotnet build -c Release src/UglyToad.PdfPig.sln 
+      - name: Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11' 
       - name: check python version
         run: python --version
       - name: Build and Analyze
