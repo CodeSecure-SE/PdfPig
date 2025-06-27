@@ -58,7 +58,7 @@ jobs:
         run: Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force
 #      - run: pip install requests 
       - name: check python version
-      - run: python --version
+        run: python --version
       - name: Build and Analyze
 #        run: python -v cso-scripts\build_and_analyze.py  codesonar.conf cs-dotnet-scan -include-artifacts  src/UglyToad.PdfPig.Core/bin/Release/net8.0/*.dll
         run: python -v cso-scripts\build_and_analyze.py  
