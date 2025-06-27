@@ -10,7 +10,7 @@ on:
 jobs:
   CodeSonar_Analyze:
     permissions: write-all
-    runs-on: WINDOWS
+    runs-on: WINDOWS # Requires Python, CodeSonar and Visual Studio Community to be installed on the runner.
     env:
       CAFILE: ".github/github.cert.pem" 
       TOKEN: "${{ secrets.GITHUB_TOKEN }}"
