@@ -60,7 +60,7 @@ jobs:
       - name: check python version
         run: python --version
       - name: Build and Analyze
-        run: python cso-scripts\build_and_analyze.py  codesonar.conf cs-dotnet-scan -include-artifacts  src/UglyToad.PdfPig.Core/bin/Release/net8.0/*.dll
+        run: python -v cso-scripts\build_and_analyze.py  codesonar.conf cs-dotnet-scan -include-artifacts  src/UglyToad.PdfPig.Core/bin/Release/net8.0/*.dll
       - name: Push Summary Report
         if: ${{ github.event.pull_request }}
         uses: thollander/actions-comment-pull-request@v2
