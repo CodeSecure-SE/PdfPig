@@ -7,7 +7,7 @@ on:
     branches:
       - 'release/**'       
   
-      
+
 jobs:
   CodeSonar_Analyze:
     permissions: write-all
@@ -30,6 +30,8 @@ jobs:
       REPO_URL: "https://github.com/CodeSecure-SE/PdfPig"    # the github.repositoryUrl is not an http-link.
       TARGET: ${{ github.base_ref }}
       IS_PR: ${{ github.event_name }}
+      EnableSourceControlManagerQueries: false
+      
     steps:
 
       - name: Checkout 
