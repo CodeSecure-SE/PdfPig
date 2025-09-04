@@ -62,10 +62,8 @@ jobs:
 #      - run: pip install requests 
       - name: check python version
         run: python --version
-      - name: Debug
-        run: dir ${CSONAR_CSHOME}\codesonar\bin
       - name: Build and Analyze
-        run: python -u cso-scripts\build_and_analyze.py  codesonar.conf ${CSONAR_CSHOME}\codesonar\bin\cs-dotnet-scan -include-artifacts  src/UglyToad.PdfPig.Core/bin/Release/net8.0/*.dll
+        run: python -u cso-scripts\build_and_analyze.py codesonar.conf "$env:CSONAR_CSHOME\codesonar\bin\cs-dotnet-scan" -include-artifacts src/UglyToad.PdfPig.Core/bin/Release/net8.0/*.dll
       - name: Push Summary Report
         if: ${{ github.event.pull_request }}
         uses: thollander/actions-comment-pull-request@v2
@@ -75,5 +73,5 @@ jobs:
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: warnings.sarif
-          category: "CodeSecure CodeSonar"        
-          
+          category: "CodeSecure CodeSonar"
+
