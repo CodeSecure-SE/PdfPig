@@ -62,9 +62,9 @@ jobs:
 #      - run: pip install requests 
       - name: check python version
         run: python --version
-      - name: Build and Analyze
       - name: Debug
         run: dir %CSONAR_CSHOME%\codesonar\bin
+      - name: Build and Analyze
         run: python -u cso-scripts\build_and_analyze.py  codesonar.conf %CSONAR_CSHOME%\codesonar\bin\cs-dotnet-scan -include-artifacts  src/UglyToad.PdfPig.Core/bin/Release/net8.0/*.dll
       - name: Push Summary Report
         if: ${{ github.event.pull_request }}
