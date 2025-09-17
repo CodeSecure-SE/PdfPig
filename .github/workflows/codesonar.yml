@@ -11,7 +11,7 @@ on:
 jobs:
   CodeSonar_Analyze:
     permissions: write-all
-    runs-on: WINDOWS # Requires Python, CodeSonar and Visual Studio Community to be installed on the runner.
+    runs-on: windows-2022 # Requires Python, CodeSonar and Visual Studio Community to be installed on the runner.
                      # also requires the python packages requests and urllib3 to be installed.
     env:
       CAFILE: ".github/github.cert.pem" 
