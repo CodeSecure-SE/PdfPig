@@ -70,8 +70,8 @@ jobs:
       - name: widen policy
         run: Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force
 #      - run: pip install requests 
-      - name: check python version
-        run: python --version
+      - name: Install python-requests
+        run: python -m pip install requests
       - name: Build and Analyze
         run: python -u cso-scripts\build_and_analyze.py -noupload codesonar.conf "$env:CSONAR_CSHOME\codesonar\bin\cs-dotnet-scan" -include-artifacts src/UglyToad.PdfPig.Core/bin/Release/net8.0/*.dll
       - name: Upload SARIF to GitHub #Use this if you do not have GitHub Enterprise
