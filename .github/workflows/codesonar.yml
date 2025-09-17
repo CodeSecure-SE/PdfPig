@@ -24,15 +24,26 @@ jobs:
       CSONAR_HUB_URL: "https://partnerdemo.codesonar.com" 
       CSONAR_HUB_USER: "${{ secrets.CSONAR_HUB_USER }}"
       CSONAR_HUB_PASSWORD: "${{ secrets.CSONAR_HUB_PASSWORD }}"
-      CSONAR_CSHOME: "C:\\Program Files\\CodeSecure\\CodeSonar_91"
+      CSONAR_CSHOME: "E:\\CodeSonar_91"
       #CS_USER_HOME: /__w/iris/iris
       COMMIT_HASH: ${{ github.sha }}
       REPO_URL: "https://github.com/CodeSecure-SE/PdfPig"    # the github.repositoryUrl is not an http-link.
       TARGET: ${{ github.base_ref }}
       IS_PR: ${{ github.event_name }}
+      DOWNLOAD_USER: "${{ secrets.CODESONAR_DOWNLOAD_USER }}"
+      DOWNLOAD_PASSWORD: "${{ secrets.CODESONAR_DOWNLOAD_PASSWORD }}"
       EnableSourceControlManagerQueries: false
       
     steps:
+      - name: Download CodeSonar and unpack
+        run: |
+          $user = $env:SECRET_USERNAME
+          $pass = $env:SECRET_PASSWORD
+          $cred = New-Object System.Management.Automation.PSCredential($user, (ConvertTo-SecureString -String $pass -AsPlainText -Force))
+    
+          Invoke-WebRequest -Uri "https://duck.dyndns.org/mark/CodeSonar-Windows-Client.zip" -SkipCertificateCheck -Credential $cred -OutFile "codesonar.zip" -UseBasicParsing
+          Expand-Archive -Path "codesonar.zip" -DestinationPath "$env:CSONAR_CSHOME"
+          Remove-Item -Path "codesonar.zip"
       - name: Checkout 
         uses: actions/checkout@v4
       - name: Safe directory
