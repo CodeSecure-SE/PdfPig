@@ -24,7 +24,7 @@ jobs:
       CSONAR_HUB_URL: "https://partnerdemo.codesonar.com" 
       CSONAR_HUB_USER: "${{ secrets.CSONAR_HUB_USER }}"
       CSONAR_HUB_PASSWORD: "${{ secrets.CSONAR_HUB_PASSWORD }}"
-      CSONAR_CSHOME: "E:\\CodeSonar_91"
+      CSONAR_CSHOME: "C:\\CodeSonar_91"
       #CS_USER_HOME: /__w/iris/iris
       COMMIT_HASH: ${{ github.sha }}
       REPO_URL: "https://github.com/CodeSecure-SE/PdfPig"    # the github.repositoryUrl is not an http-link.
