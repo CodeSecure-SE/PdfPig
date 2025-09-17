@@ -41,7 +41,7 @@ jobs:
           $pass = $env:DOWNLOAD_PASSWORD
           $cred = New-Object System.Management.Automation.PSCredential($user, (ConvertTo-SecureString -String $pass -AsPlainText -Force))
     
-          Invoke-WebRequest -Uri "https://duck.dyndns.org/mark/CodeSonar-Windows-Client.zip" -SkipCertificateCheck -Credential $cred -OutFile "codesonar.zip" -UseBasicParsing
+          Invoke-WebRequest -Uri "https://duck.dyndns.org/mark/CodeSonar.zip" -SkipCertificateCheck -Credential $cred -OutFile "codesonar.zip" -UseBasicParsing
           Expand-Archive -Path "codesonar.zip" -DestinationPath "$env:CSONAR_CSHOME"
           Remove-Item -Path "codesonar.zip"
       - name: Checkout 
@@ -90,3 +90,5 @@ jobs:
         with:
           sarif_file: warnings.sarif
           category: "CodeSecure CodeSonar"
+
+          
