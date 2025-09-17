@@ -24,7 +24,7 @@ jobs:
       CSONAR_HUB_URL: "https://partnerdemo.codesonar.com" 
       CSONAR_HUB_USER: "${{ secrets.CSONAR_HUB_USER }}"
       CSONAR_HUB_PASSWORD: "${{ secrets.CSONAR_HUB_PASSWORD }}"
-      CSONAR_CSHOME: "C:\\CodeSonar_91"
+      CSONAR_CSHOME: "C:\\CodeSonar"
       #CS_USER_HOME: /__w/iris/iris
       COMMIT_HASH: ${{ github.sha }}
       REPO_URL: "https://github.com/CodeSecure-SE/PdfPig"    # the github.repositoryUrl is not an http-link.
@@ -41,8 +41,8 @@ jobs:
           $pass = $env:DOWNLOAD_PASSWORD
           $cred = New-Object System.Management.Automation.PSCredential($user, (ConvertTo-SecureString -String $pass -AsPlainText -Force))
     
-          Invoke-WebRequest -Uri "https://duck.dyndns.org/mark/CodeSonar.zip" -SkipCertificateCheck -Credential $cred -OutFile "codesonar.zip" -UseBasicParsing
-          Expand-Archive -Path "codesonar.zip" -DestinationPath "$env:CSONAR_CSHOME"
+          Invoke-WebRequest -Uri "https://duck.dyndns.org/mark/CodeSonar-Windows-Client.zip" -SkipCertificateCheck -Credential $cred -OutFile "codesonar.zip" -UseBasicParsing
+          Expand-Archive -Path "codesonar.zip" -DestinationPath C:\\
           Remove-Item -Path "codesonar.zip"
       - name: Checkout 
         uses: actions/checkout@v4
