@@ -82,11 +82,11 @@ jobs:
         with:
            name: SARIF file
            path: warnings.sarif
-      - name: Push Summary Report
-        if: ${{ github.event.pull_request }}
-        uses: thollander/actions-comment-pull-request@v2
-        with: 
-          filePath: warnings.md
+#      - name: Push Summary Report
+#        if: ${{ github.event.pull_request }}
+#        uses: thollander/actions-comment-pull-request@v2
+#        with: 
+#          filePath: warnings.md
       - name: Upload SARIF results
         uses: github/codeql-action/upload-sarif@v3
         with:
