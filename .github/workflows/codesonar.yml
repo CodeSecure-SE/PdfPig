@@ -11,7 +11,7 @@ on:
 jobs:
   CodeSonar_Analyze:
     permissions: write-all
-    runs-on: WINDOWS # Requires Python, CodeSonar and Visual Studio Community to be installed on the runner.
+    runs-on: windows-2022 # Requires Python, CodeSonar and Visual Studio Community to be installed on the runner.
                      # also requires the python packages requests and urllib3 to be installed.
     env:
       CAFILE: ".github/github.cert.pem" 
@@ -24,16 +24,26 @@ jobs:
       CSONAR_HUB_URL: "https://partnerdemo.codesonar.com" 
       CSONAR_HUB_USER: "${{ secrets.CSONAR_HUB_USER }}"
       CSONAR_HUB_PASSWORD: "${{ secrets.CSONAR_HUB_PASSWORD }}"
-      CSONAR_CSHOME: "C:\\Program Files\\CodeSecure\\CodeSonar_91"
+      CSONAR_CSHOME: "C:\\CodeSonar"
       #CS_USER_HOME: /__w/iris/iris
       COMMIT_HASH: ${{ github.sha }}
       REPO_URL: "https://github.com/CodeSecure-SE/PdfPig"    # the github.repositoryUrl is not an http-link.
       TARGET: ${{ github.base_ref }}
       IS_PR: ${{ github.event_name }}
+      DOWNLOAD_USER: "${{ secrets.CODESONAR_DOWNLOAD_USER }}"
+      DOWNLOAD_PASSWORD: "${{ secrets.CODESONAR_DOWNLOAD_PASSWORD }}"
       EnableSourceControlManagerQueries: false
       
     steps:
-
+      - name: Download CodeSonar and unpack
+        run: |
+          $user = $env:DOWNLOAD_USER
+          $pass = $env:DOWNLOAD_PASSWORD
+          $cred = New-Object System.Management.Automation.PSCredential($user, (ConvertTo-SecureString -String $pass -AsPlainText -Force))
+    
+          Invoke-WebRequest -Uri "https://duck.dyndns.org/mark/CodeSonar_Windows_Client.zip" -SkipCertificateCheck -Credential $cred -OutFile "codesonar.zip" -UseBasicParsing
+          Expand-Archive -Path "codesonar.zip" -DestinationPath C:\\
+          Remove-Item -Path "codesonar.zip"
       - name: Checkout 
         uses: actions/checkout@v4
       - name: Safe directory
@@ -60,18 +70,25 @@ jobs:
       - name: widen policy
         run: Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force
 #      - run: pip install requests 
-      - name: check python version
-        run: python --version
+      - name: Install python-requests
+        run: python -m pip install requests
       - name: Build and Analyze
         run: python -u cso-scripts\build_and_analyze.py -noupload codesonar.conf "$env:CSONAR_CSHOME\codesonar\bin\cs-dotnet-scan" -include-artifacts src/UglyToad.PdfPig.Core/bin/Release/net8.0/*.dll
-      - name: Push Summary Report
+      - name: Upload SARIF to GitHub #Use this if you do not have GitHub Enterprise
         if: ${{ github.event.pull_request }}
-        uses: thollander/actions-comment-pull-request@v2
-        with: 
-          filePath: warnings.md
-      - name: Upload SARIF results
-        uses: github/codeql-action/upload-sarif@v3
+        uses: actions/upload-artifact@v4
         with:
-          sarif_file: warnings.sarif
-          category: "CodeSecure CodeSonar"
+           name: SARIF file
+           path: warnings.sarif
+#      - name: Push Summary Report
+#        if: ${{ github.event.pull_request }}
+#        uses: thollander/actions-comment-pull-request@v2
+#        with: 
+#          filePath: warnings.md
+#      - name: Upload SARIF results // Turned off for CSO-6210
+#        uses: github/codeql-action/upload-sarif@v3
+#        with:
+#          sarif_file: warnings.sarif
+#          category: "CodeSecure CodeSonar"
 
+          
